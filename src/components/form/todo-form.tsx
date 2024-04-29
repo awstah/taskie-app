@@ -30,6 +30,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { DialogFooter } from "../ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { toast } from "sonner";
 
 type Props = {
     id?: any;
@@ -55,27 +56,37 @@ export const TodoForm = ({ id }: Props) => {
 
     const todoHandle = (values: z.infer<typeof formSchema>) => {
         if (data) {
-            dispatch(
-                updateTodo({
-                    todo: values.todo,
-                    priority: values.priority,
-                    updatedAt: Date.now().toString(),
-                    id: data.id,
-                    status: data.status,
-                    createdAt: data.createdAt,
-                })
-            );
+            try {
+                dispatch(
+                    updateTodo({
+                        todo: values.todo,
+                        priority: values.priority,
+                        updatedAt: Date.now().toString(),
+                        id: data.id,
+                        status: data.status,
+                        createdAt: data.createdAt,
+                    })
+                );
+                toast("Task updated successfully!");
+            } catch (error) {
+                toast(`${error}`);
+            }
         } else {
-            dispatch(
-                newTodo({
-                    todo: values.todo,
-                    id: v4(),
-                    status: "Pending",
-                    priority: values.priority,
-                    createdAt: Date.now().toString(),
-                    updatedAt: Date.now().toString(),
-                })
-            );
+            try {
+                dispatch(
+                    newTodo({
+                        todo: values.todo,
+                        id: v4(),
+                        status: "Pending",
+                        priority: values.priority,
+                        createdAt: Date.now().toString(),
+                        updatedAt: Date.now().toString(),
+                    })
+                );
+                toast("Task created successfully!");
+            } catch (error) {
+                toast(`${error}`);
+            }
         }
     };
 

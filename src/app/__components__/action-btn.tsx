@@ -4,17 +4,18 @@ import { useAppDispatch } from "@/lib/hooks";
 import { CheckCheckIcon, Trash2Icon } from "lucide-react";
 import React from "react";
 import { UpdateTodo } from "./update-todo";
+import { toast } from "sonner";
 
 const ActionButton = ({ id }: any) => {
     const dispatch = useAppDispatch();
 
     const onComplete = () => {
         dispatch(changeStatus(id));
-        console.log(id);
+        toast("Task Completed successfully!");
     };
     const onDelete = () => {
         dispatch(deleteTodo(id));
-        console.log(id);
+        toast("Task deleted successfully!");
     };
     return (
         <>
